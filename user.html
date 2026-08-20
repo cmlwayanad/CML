@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Sacred Portal | Next-Gen Experience</title>
     <!-- Modern Typography & Icons -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -27,6 +27,13 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        html, body {
+            width: 100%;
+            height: 100%;
+            overflow-x: hidden;
         }
 
         body {
@@ -34,26 +41,28 @@
             background-color: var(--bg-void);
             color: var(--text-primary);
             min-height: 100vh;
+            min-height: -webkit-fill-available;
             display: flex;
             justify-content: center;
             align-items: center;
-            overflow: hidden;
             position: relative;
+            padding: 16px;
         }
 
         /* --- 3D WebGL / Canvas Mesh Background --- */
         #interactive-mesh {
-            position: absolute;
+            position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
             z-index: 1;
+            pointer-events: none;
         }
 
         /* Ambient Radial Lighting */
         .glow-orb {
-            position: absolute;
+            position: fixed;
             border-radius: 50%;
             filter: blur(120px);
             pointer-events: none;
@@ -73,6 +82,7 @@
             align-items: center;
             z-index: 9999;
             transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.8s;
+            padding: 20px;
         }
 
         .hologram-cross {
@@ -120,13 +130,14 @@
             text-transform: uppercase;
             color: var(--text-secondary);
             animation: textFlicker 2s infinite;
+            text-align: center;
         }
 
         /* --- BENTO-GRID ULTRA CARD --- */
         .app-container {
             position: relative;
             z-index: 10;
-            width: 90%;
+            width: 100%;
             max-width: 540px;
             background: var(--glass-surface);
             backdrop-filter: blur(40px);
@@ -139,6 +150,7 @@
             opacity: 0;
             transform: translateY(30px) scale(0.95);
             transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+            margin: auto;
         }
 
         .app-container.visible {
@@ -152,6 +164,7 @@
             justify-content: space-between;
             align-items: center;
             margin-bottom: 30px;
+            gap: 12px;
         }
 
         .badge-live {
@@ -166,6 +179,7 @@
             font-weight: 600;
             color: var(--accent-cyan);
             letter-spacing: 0.5px;
+            white-space: nowrap;
         }
 
         .pulse-dot {
@@ -175,12 +189,14 @@
             border-radius: 50%;
             box-shadow: 0 0 8px var(--accent-cyan);
             animation: dotPulse 1.5s infinite;
+            flex-shrink: 0;
         }
 
         .time-display {
             font-size: 0.8rem;
             color: var(--text-secondary);
             font-weight: 600;
+            white-space: nowrap;
         }
 
         /* Header Title */
@@ -253,11 +269,13 @@
             justify-content: space-between;
             font-size: 0.8rem;
             color: var(--text-secondary);
+            gap: 10px;
         }
 
         .progress-meta span.highlight {
             color: var(--text-primary);
             font-weight: 600;
+            white-space: nowrap;
         }
 
         .modern-progress-bar {
@@ -299,9 +317,10 @@
             font-size: 0.95rem;
             text-decoration: none;
             transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            min-height: 52px;
         }
 
-        .btn-launch:hover {
+        .btn-launch:active, .btn-launch:hover {
             transform: translateY(-2px);
             box-shadow: 0 12px 25px rgba(255, 255, 255, 0.25);
             background: var(--accent-cyan);
@@ -319,12 +338,89 @@
             color: var(--text-primary);
             cursor: pointer;
             transition: all 0.3s ease;
+            flex-shrink: 0;
         }
 
-        .btn-icon-only:hover {
+        .btn-icon-only:active, .btn-icon-only:hover {
             background: rgba(255, 255, 255, 0.1);
             border-color: rgba(255, 255, 255, 0.2);
             color: var(--accent-cyan);
+        }
+
+        /* --- MOBILE VIEW RESPONSIVE BREAKPOINTS --- */
+        @media (max-width: 600px) {
+            body {
+                padding: 12px;
+                align-items: flex-start;
+            }
+
+            .app-container {
+                padding: 24px 20px;
+                border-radius: 24px;
+                margin-top: auto;
+                margin-bottom: auto;
+            }
+
+            h1 {
+                font-size: 1.85rem;
+            }
+
+            p.hero-sub {
+                font-size: 0.85rem;
+                margin-bottom: 20px;
+            }
+
+            .top-bar {
+                margin-bottom: 20px;
+            }
+
+            .badge-live {
+                padding: 5px 10px;
+                font-size: 0.7rem;
+            }
+
+            .scripture-tile {
+                padding: 18px 16px;
+                margin-bottom: 20px;
+                border-radius: 16px;
+            }
+
+            .quote-content {
+                font-size: 0.9rem;
+                min-height: 80px;
+            }
+
+            .loader-label {
+                letter-spacing: 4px;
+                font-size: 0.75rem;
+            }
+
+            .hologram-cross {
+                width: 100px;
+                height: 100px;
+            }
+
+            .cross-core {
+                font-size: 2rem;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .app-container {
+                padding: 20px 16px;
+            }
+
+            h1 {
+                font-size: 1.6rem;
+            }
+
+            .button-group {
+                grid-template-columns: 1fr;
+            }
+
+            .btn-icon-only {
+                width: 100%;
+            }
         }
 
         /* --- ANIMATIONS --- */
@@ -342,11 +438,6 @@
         @keyframes dotPulse {
             0%, 100% { transform: scale(1); opacity: 0.5; }
             50% { transform: scale(1.8); opacity: 1; }
-        }
-
-        @media (max-width: 480px) {
-            .app-container { padding: 28px 20px; }
-            h1 { font-size: 1.8rem; }
         }
     </style>
 </head>
@@ -493,7 +584,7 @@
             }, 1200);
         });
 
-        // Interactive Canvas Grid Node Animation
+        // Interactive Canvas Grid Node Animation (Scale node count down for mobile performance)
         const canvas = document.getElementById('interactive-mesh');
         const ctx = canvas.getContext('2d');
 
@@ -504,7 +595,10 @@
         resize();
         window.addEventListener('resize', resize);
 
-        const nodes = Array.from({ length: 40 }, () => ({
+        const isMobile = window.innerWidth < 600;
+        const nodeCount = isMobile ? 20 : 40;
+
+        const nodes = Array.from({ length: nodeCount }, () => ({
             x: Math.random() * canvas.width,
             y: Math.random() * canvas.height,
             vx: (Math.random() - 0.5) * 0.6,
@@ -529,8 +623,9 @@
                 for (let j = i + 1; j < nodes.length; j++) {
                     const other = nodes[j];
                     const dist = Math.hypot(node.x - other.x, node.y - other.y);
-                    if (dist < 140) {
-                        ctx.strokeStyle = `rgba(0, 242, 254, ${1 - dist / 140 * 0.85})`;
+                    const threshold = isMobile ? 100 : 140;
+                    if (dist < threshold) {
+                        ctx.strokeStyle = `rgba(0, 242, 254, ${1 - dist / threshold * 0.85})`;
                         ctx.lineWidth = 0.5;
                         ctx.beginPath();
                         ctx.moveTo(node.x, node.y);
