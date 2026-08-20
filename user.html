@@ -74,7 +74,13 @@
         /* --- HYPER-MODERN HOLOGRAM LOADER --- */
         #loader {
             position: fixed;
-            inset: 0;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            width: 100vw;
+            height: 100vh;
+            height: -webkit-fill-available;
             background: var(--bg-void);
             display: flex;
             flex-direction: column;
@@ -347,8 +353,36 @@
             color: var(--accent-cyan);
         }
 
-        /* --- MOBILE VIEW RESPONSIVE BREAKPOINTS --- */
+        /* --- MOBILE LOADER & LAYOUT OVERRIDES --- */
         @media (max-width: 600px) {
+            #loader {
+                position: fixed;
+                inset: 0;
+                width: 100%;
+                height: 100%;
+                min-height: -webkit-fill-available;
+                display: flex !important;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                z-index: 99999;
+            }
+
+            .hologram-cross {
+                width: 90px;
+                height: 90px;
+            }
+
+            .cross-core {
+                font-size: 1.8rem;
+            }
+
+            .loader-label {
+                margin-top: 20px;
+                letter-spacing: 3px;
+                font-size: 0.7rem;
+            }
+
             body {
                 padding: 12px;
                 align-items: flex-start;
@@ -388,20 +422,6 @@
             .quote-content {
                 font-size: 0.9rem;
                 min-height: 80px;
-            }
-
-            .loader-label {
-                letter-spacing: 4px;
-                font-size: 0.75rem;
-            }
-
-            .hologram-cross {
-                width: 100px;
-                height: 100px;
-            }
-
-            .cross-core {
-                font-size: 2rem;
             }
         }
 
@@ -447,7 +467,7 @@
     <div class="glow-orb orb-1"></div>
     <div class="glow-orb orb-2"></div>
 
-    <!-- 1. ULTRA HOLOGRAM LOADER -->
+    <!-- 1. ULTRA HOLOGRAM LOADER (OPTIMIZED FOR MOBILE) -->
     <div id="loader">
         <div class="hologram-cross">
             <div class="ring"></div>
@@ -576,15 +596,20 @@
                 const loader = document.getElementById('loader');
                 const card = document.getElementById('appCard');
 
-                loader.style.opacity = '0';
-                loader.style.visibility = 'hidden';
+                if (loader) {
+                    loader.style.opacity = '0';
+                    loader.style.visibility = 'hidden';
+                }
 
-                card.classList.add('visible');
+                if (card) {
+                    card.classList.add('visible');
+                }
+                
                 runAutoRedirect();
             }, 1200);
         });
 
-        // Interactive Canvas Grid Node Animation (Scale node count down for mobile performance)
+        // Interactive Canvas Grid Node Animation
         const canvas = document.getElementById('interactive-mesh');
         const ctx = canvas.getContext('2d');
 
