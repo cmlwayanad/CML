@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="ml">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>CML Kalotsavam 2026 - Admin Portal</title>
+  
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=Noto+Sans+Malayalam:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --gold-primary: #f59e0b;
+      --gold-glow: rgba(245, 158, 11, 0.5);
+    }
+
+    body {
+      background: radial-gradient(circle at 50% 0%, #1e1b4b, #0f172a, #020617);
+      min-height: 100vh;
+      color: #f8fafc;
+      font-family: 'Plus Jakarta Sans', 'Noto Sans Malayalam', sans-serif;
+      overflow-x: hidden;
+    }
+
+    /* GLASSMORPHIC CARDS */
+    .glass-card {
+      background: rgba(30, 41, 59, 0.65);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+    }
+
+    /* CHRISTIAN CROSS GLOWING ANIMATIONS */
+    .cross-container {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .cross-glow {
+      position: absolute;
+      width: 160px;
+      height: 160px;
+      background: radial-gradient(circle, var(--gold-glow) 0%, rgba(0,0,0,0) 70%);
+      border-radius: 50%;
+      animation: pulseGlow 2.5s ease-in-out infinite alternate;
+    }
+
+    .christian-cross {
+      position: relative;
+      width: 36px;
+      height: 52px;
+      filter: drop-shadow(0 0 16px #fbbf24);
+      animation: divineFloat 3.5s ease-in-out infinite alternate;
+    }
+
+    .cross-v {
+      position: absolute;
+      left: 14px;
+      top: 0;
+      width: 8px;
+      height: 52px;
+      background: linear-gradient(180deg, #fef08a, #f59e0b, #d97706);
+      border-radius: 4px;
+    }
+
+    .cross-h {
+      position: absolute;
+      left: 0;
+      top: 14px;
+      width: 36px;
+      height: 8px;
+      background: linear-gradient(90deg, #fef08a, #f59e0b, #d97706);
+      border-radius: 4px;
+    }
+
+    /* DIVINE RAY ANIMATION */
+    .light-ray {
+      position: absolute;
+      width: 2px;
+      height: 100px;
+      background: linear-gradient(180deg, rgba(254, 240, 138, 0.8), transparent);
+      opacity: 0.3;
+      transform-origin: top center;
+      animation: rayRotate 12s linear infinite;
+    }
+
+    @keyframes pulseGlow {
+      0% { transform: scale(0.85); opacity: 0.4; }
+      100% { transform: scale(1.4); opacity: 0.85; }
+    }
+
+    @keyframes divineFloat {
+      0% { transform: translateY(0px); }
+      100% { transform: translateY(-8px); }
+    }
+
+    @keyframes rayRotate {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    /* FLOATING PARTICLES */
+    .particle {
+      position: absolute;
+      background: #fbbf24;
+      border-radius: 50%;
+      pointer-events: none;
+      opacity: 0.5;
+      animation: floatUp 8s linear infinite;
+    }
+
+    @keyframes floatUp {
+      0% { transform: translateY(100vh) scale(0); opacity: 0; }
+      50% { opacity: 0.7; }
+      100% { transform: translateY(-10vh) scale(1); opacity: 0; }
+    }
+
+    /* INTRO LOADING SCREEN SLIDE UP ANIMATION */
+    #loadingScreen {
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+
+    #loadingScreen.hide {
+      opacity: 0;
+      transform: translateY(-100%);
+      pointer-events: none;
+    }
+
+    .quote-fade {
+      transition: opacity 0.4s ease-in-out;
+    }
+
+    .cinzel-font {
+      font-family: 'Cinzel', serif;
+    }
+  </style>
+</head>
+<body class="p-3 sm:p-6 flex flex-col items-center justify-between relative min-h-screen">
+
+  <!-- ==================== CHRISTIAN INTRO LOADING SCREEN ==================== -->
+  <div id="loadingScreen" class="fixed inset-0 z-50 bg-slate-950 flex flex-col items-center justify-between p-6 overflow-hidden">
+    
+    <!-- Top Decorative Cross Header -->
+    <div class="pt-8 flex flex-col items-center space-y-3 z-10">
+      <div class="cross-container">
+        <div class="cross-glow"></div>
+        <div class="christian-cross">
+          <div class="cross-v"></div>
+          <div class="cross-h"></div>
+        </div>
+      </div>
+      <p class="cinzel-font text-amber-400 text-xs tracking-widest uppercase font-bold pt-2">Cherupushpa Mission League</p>
+      <h2 class="text-white text-lg font-black tracking-wide">CML MANANTHAVADY 2026</h2>
+    </div>
+
+    <!-- Center Bible Quote Container -->
+    <div class="max-w-xl text-center space-y-4 px-4 z-10 my-auto">
+      <i class="fa-solid fa-book-bible text-4xl text-amber-400/80 mb-2"></i>
+      <p id="bibleVerseText" class="quote-fade text-base sm:text-lg font-bold text-slate-100 italic leading-relaxed">
+        "I can do all things through Christ who strengthens me."
+      </p>
+      <p id="bibleVerseRef" class="quote-fade text-xs sm:text-sm font-black text-amber-400 tracking-wider font-mono">
+        — Philippians 4:13
+      </p>
+    </div>
+
+    <!-- Bottom Loading Bar & Progress -->
+    <div class="w-full max-w-sm space-y-3 z-10 pb-8">
+      <div class="w-full h-2 bg-slate-800 rounded-full overflow-hidden border border-amber-500/20 p-0.5">
+        <div id="progressBar" class="h-full bg-gradient-to-r from-amber-600 via-amber-400 to-amber-500 rounded-full w-0 transition-all duration-100"></div>
+      </div>
+      <div class="flex items-center justify-between text-[11px] font-bold text-slate-400">
+        <span class="flex items-center gap-1.5 text-amber-300">
+          <i class="fa-solid fa-spinner animate-spin text-xs"></i> Loading Portal...
+        </span>
+        <span id="progressText" class="font-mono text-amber-400">0%</span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Background Light Rays & Particles -->
+  <div class="fixed top-0 left-1/2 -translate-x-1/2 -z-10 pointer-events-none opacity-20">
+    <div class="light-ray" style="transform: rotate(0deg);"></div>
+    <div class="light-ray" style="transform: rotate(45deg);"></div>
+    <div class="light-ray" style="transform: rotate(90deg);"></div>
+    <div class="light-ray" style="transform: rotate(135deg);"></div>
+  </div>
+  <div id="particleContainer" class="fixed inset-0 pointer-events-none -z-10"></div>
+
+  <!-- ==================== MAIN ADMIN PORTAL CONTENT ==================== -->
+  <div class="w-full max-w-4xl space-y-6 my-auto">
+
+    <!-- HEADER WITH DYNAMIC CROSS & LIVE CLOCK -->
+    <div class="glass-card p-6 rounded-3xl relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-6">
+      <div class="flex items-center gap-5 z-10 text-center md:text-left">
+        <div class="cross-container">
+          <div class="cross-glow"></div>
+          <div class="christian-cross">
+            <div class="cross-v"></div>
+            <div class="cross-h"></div>
+          </div>
+        </div>
+        <div>
+          <span class="text-[10px] font-black uppercase tracking-widest px-3 py-1 bg-amber-500/20 text-amber-300 border border-amber-500/30 rounded-full">
+            Cherupushpa Mission League
+          </span>
+          <h1 class="text-2xl sm:text-3xl font-black text-white mt-1">CML മാനന്തവാടി 2026</h1>
+          <p class="text-xs text-slate-300 font-semibold mt-0.5">അഡ്മിനിസ്ട്രേറ്റീവ് നിയന്ത്രണ പോർട്ടൽ</p>
+        </div>
+      </div>
+
+      <div class="z-10 glass-card px-5 py-3 rounded-2xl flex flex-col items-center md:items-end border-amber-500/20">
+        <div class="flex items-center gap-2 text-amber-400">
+          <i class="fa-regular fa-clock text-sm"></i>
+          <span class="text-xs font-extrabold uppercase tracking-wider">Live Time</span>
+        </div>
+        <div id="liveClock" class="text-xl sm:text-2xl font-black text-white font-mono mt-0.5">00:00:00 AM</div>
+        <div id="liveDate" class="text-[11px] font-semibold text-slate-400">Loading Date...</div>
+      </div>
+    </div>
+
+    <!-- MODULE NAVIGATION CARDS -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+
+      <!-- ADMIN PORTAL -->
+      <a href="https://script.google.com/macros/s/AKfycby44Gw8JaV-PCcphFKxEXtUA3nCiPYT-7HOdPes9sCQwMhkl1ls-a2DtlAqibHWoEwK/exec" 
+         target="_blank"
+         class="glass-card p-6 rounded-3xl space-y-4 hover:border-amber-500/50 transition-all duration-300 hover:-translate-y-1.5 group flex flex-col justify-between">
+        <div class="space-y-3">
+          <div class="w-14 h-14 bg-amber-500/20 border border-amber-500/30 rounded-2xl flex items-center justify-center text-amber-400 group-hover:scale-110 transition-transform">
+            <i class="fa-solid fa-user-shield text-2xl"></i>
+          </div>
+          <div>
+            <h3 class="text-lg font-black text-white group-hover:text-amber-300 transition">അഡ്മിൻ പോർട്ടൽ</h3>
+            <p class="text-xs text-slate-300 font-medium leading-relaxed mt-1">
+              മത്സരാർത്ഥികളുടെ രജിസ്ട്രേഷൻ, പോയിന്റ് മാനേജ്മെന്റ്, അഡ്മിനിസ്ട്രേറ്റീവ് ഫീച്ചറുകൾ.
+            </p>
+          </div>
+        </div>
+        <div class="pt-3 border-t border-slate-700/60 flex items-center justify-between text-xs font-bold text-amber-400">
+          <span>പ്രവേശിക്കുക (Open Admin)</span>
+          <i class="fa-solid fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
+        </div>
+      </a>
+
+      <!-- MARK ENTRY -->
+      <a href="https://script.google.com/macros/s/AKfycbz1Y46rWduWqwswRsoKmgMs6W2rk9e7ssP1DYPT76bcqC-d64HXBN1XNOY3oKjJeGUK/exec" 
+         target="_blank"
+         class="glass-card p-6 rounded-3xl space-y-4 hover:border-blue-500/50 transition-all duration-300 hover:-translate-y-1.5 group flex flex-col justify-between">
+        <div class="space-y-3">
+          <div class="w-14 h-14 bg-blue-500/20 border border-blue-500/30 rounded-2xl flex items-center justify-center text-blue-400 group-hover:scale-110 transition-transform">
+            <i class="fa-solid fa-pen-to-square text-2xl"></i>
+          </div>
+          <div>
+            <h3 class="text-lg font-black text-white group-hover:text-blue-300 transition">മാർക്ക് എൻട്രി</h3>
+            <p class="text-xs text-slate-300 font-medium leading-relaxed mt-1">
+              ഓരോ മത്സരങ്ങളുടെയും മാർക്ക് എൻട്രി, ഐറ്റം തിരിച്ചുള്ള പോയിന്റ് നില.
+            </p>
+          </div>
+        </div>
+        <div class="pt-3 border-t border-slate-700/60 flex items-center justify-between text-xs font-bold text-blue-400">
+          <span>മാർക്ക് നൽകുക (Mark Entry)</span>
+          <i class="fa-solid fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
+        </div>
+      </a>
+
+      <!-- CERTIFICATE PORTAL (UPDATED LINK) -->
+      <a href="https://script.google.com/macros/s/AKfycbwKGKnZIiOnfMhR00rUaDr3bCUtzj1eBXA2AqI2-sDy-Dnm-hP1sMaVQ8YCM34y6_wg/exec" 
+         target="_blank"
+         class="glass-card p-6 rounded-3xl space-y-4 hover:border-emerald-500/50 transition-all duration-300 hover:-translate-y-1.5 group flex flex-col justify-between">
+        <div class="space-y-3">
+          <div class="w-14 h-14 bg-emerald-500/20 border border-emerald-500/30 rounded-2xl flex items-center justify-center text-emerald-400 group-hover:scale-110 transition-transform">
+            <i class="fa-solid fa-certificate text-2xl"></i>
+          </div>
+          <div>
+            <h3 class="text-lg font-black text-white group-hover:text-emerald-300 transition">സെർട്ടിഫിക്കറ്റ് പോർട്ടൽ</h3>
+            <p class="text-xs text-slate-300 font-medium leading-relaxed mt-1">
+              ഡിജിറ്റൽ സെർട്ടിഫിക്കറ്റ് ഡൗൺലോഡ്, പ്രിന്റിംഗ്, വാട്സാപ്പ് ഷെയറിംഗ്.
+            </p>
+          </div>
+        </div>
+        <div class="pt-3 border-t border-slate-700/60 flex items-center justify-between text-xs font-bold text-emerald-400">
+          <span>ഡൗൺലോഡ് (Certificates)</span>
+          <i class="fa-solid fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
+        </div>
+      </a>
+
+    </div>
+
+    <!-- RANDOM SCRIPTURE BANNER -->
+    <div class="glass-card p-5 rounded-3xl flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-left border-amber-500/20">
+      <div class="space-y-0.5">
+        <p id="dashboardVerse" class="text-xs sm:text-sm font-bold text-amber-200 italic">
+          "Let your light shine before others."
+        </p>
+        <p id="dashboardRef" class="text-[11px] font-extrabold text-amber-400 font-mono">— Matthew 5:16</p>
+      </div>
+      <button onclick="refreshDashboardVerse()" class="px-3 py-1.5 bg-amber-500/20 hover:bg-amber-500/30 border border-amber-500/30 text-amber-300 text-xs font-bold rounded-xl transition flex items-center gap-1.5 shrink-0">
+        <i class="fa-solid fa-rotate"></i> New Verse
+      </button>
+    </div>
+
+  </div>
+
+  <footer class="w-full text-center py-4 text-xs font-semibold text-slate-500 space-y-1 mt-6">
+    <p>© 2026 CML Mananthavady Zone. All Rights Reserved.</p>
+  </footer>
+
+  <!-- 200 ACCURATE ENGLISH BIBLE QUOTES DATASET & LOGIC -->
+  <script>
+    const BIBLE_QUOTES = [
+      { v: "I can do all things through Christ who strengthens me.", r: "Philippians 4:13" },
+      { v: "The Lord is my shepherd; I shall not want.", r: "Psalm 23:1" },
+      { v: "For God so loved the world that he gave his only Son.", r: "John 3:16" },
+      { v: "Trust in the Lord with all your heart and lean not on your own understanding.", r: "Proverbs 3:5" },
+      { v: "In all your ways submit to him, and he will make your paths straight.", r: "Proverbs 3:6" },
+      { v: "Be strong and courageous. Do not be afraid; do not be discouraged.", r: "Joshua 1:9" },
+      { v: "The Lord is my light and my salvation—whom shall I fear?", r: "Psalm 27:1" },
+      { v: "For I know the plans I have for you, declares the Lord.", r: "Jeremiah 29:11" },
+      { v: "And we know that in all things God works for the good of those who love him.", r: "Romans 8:28" },
+      { v: "God is our refuge and strength, an ever-present help in trouble.", r: "Psalm 46:1" },
+      { v: "Cast all your anxiety on him because he cares for you.", r: "1 Peter 5:7" },
+      { v: "The name of the Lord is a fortified tower; the righteous run to it and are safe.", r: "Proverbs 18:10" },
+      { v: "Love is patient, love is kind. It does not envy, it does not boast.", r: "1 Corinthians 13:4" },
+      { v: "And now these three remain: faith, hope and love. But the greatest of these is love.", r: "1 Corinthians 13:13" },
+      { v: "Delight yourself in the Lord, and he will give you the desires of your heart.", r: "Psalm 37:4" },
+      { v: "Commit your way to the Lord; trust in him and he will do this.", r: "Psalm 37:5" },
+      { v: "The Lord will fight for you; you need only to be still.", r: "Exodus 14:14" },
+      { v: "Come to me, all you who are weary and burdened, and I will give you rest.", r: "Matthew 11:28" },
+      { v: "Jesus replied, 'I am the way and the truth and the life.'", r: "John 14:6" },
+      { v: "Your word is a lamp for my feet, a light on my path.", r: "Psalm 119:105" },
+      { v: "Peace I leave with you; my peace I give you.", r: "John 14:27" },
+      { v: "Do not let your hearts be troubled and do not be afraid.", r: "John 14:27" },
+      { v: "Draw near to God and He will draw near to you.", r: "James 4:8" },
+      { v: "Give thanks to the Lord, for he is good; his love endures forever.", r: "Psalm 107:1" },
+      { v: "The joy of the Lord is your strength.", r: "Nehemiah 8:10" },
+      { v: "Rejoice always, pray continually, give thanks in all circumstances.", r: "1 Thessalonians 5:16-18" },
+      { v: "Do not be anxious about anything, but in every situation present your requests to God.", r: "Philippians 4:6" },
+      { v: "And the peace of God will guard your hearts and your minds in Christ Jesus.", r: "Philippians 4:7" },
+      { v: "The Lord is near to all who call on him, to all who call on him in truth.", r: "Psalm 145:18" },
+      { v: "He gives strength to the weary and increases the power of the weak.", r: "Isaiah 40:29" },
+      { v: "Those who hope in the Lord will renew their strength. They will soar on wings like eagles.", r: "Isaiah 40:31" },
+      { v: "So do not fear, for I am with you; do not be dismayed, for I am your God.", r: "Isaiah 41:10" },
+      { v: "I will strengthen you and help you; I will uphold you with my righteous right hand.", r: "Isaiah 41:10" },
+      { v: "Ask and it will be given to you; seek and you will find.", r: "Matthew 7:7" },
+      { v: "Knock and the door will be opened to you.", r: "Matthew 7:7" },
+      { v: "Therefore go and make disciples of all nations.", r: "Matthew 28:19" },
+      { v: "And surely I am with you always, to the very end of the age.", r: "Matthew 28:20" },
+      { v: "You are the light of the world. A town built on a hill cannot be hidden.", r: "Matthew 5:14" },
+      { v: "In the same way, let your light shine before others.", r: "Matthew 5:16" },
+      { v: "Blessed are the peacemakers, for they will be called children of God.", r: "Matthew 5:9" },
+      { v: "Blessed are the pure in heart, for they will see God.", r: "Matthew 5:8" },
+      { v: "The steadfast love of the Lord never ceases; his mercies never come to an end.", r: "Lamentations 3:22" },
+      { v: "They are new every morning; great is your faithfulness.", r: "Lamentations 3:23" },
+      { v: "Taste and see that the Lord is good; blessed is the one who takes refuge in him.", r: "Psalm 34:8" },
+      { v: "The righteous cry out, and the Lord hears them; he delivers them from all their troubles.", r: "Psalm 34:17" },
+      { v: "The Lord is close to the brokenhearted and saves those who are crushed in spirit.", r: "Psalm 34:18" },
+      { v: "Create in me a pure heart, O God, and renew a steadfast spirit within me.", r: "Psalm 51:10" },
+      { v: "Cast your cares on the Lord and he will sustain you.", r: "Psalm 55:22" },
+      { v: "He will never let the righteous be shaken.", r: "Psalm 55:22" },
+      { v: "In God I trust and am not afraid. What can mere mortals do to me?", r: "Psalm 56:11" },
+      { v: "My soul finds rest in God alone; my salvation comes from him.", r: "Psalm 62:1" },
+      { v: "He alone is my rock and my salvation; he is my fortress, I will never be shaken.", r: "Psalm 62:2" },
+      { v: "Whom have I in heaven but you? And earth has nothing I desire besides you.", r: "Psalm 73:25" },
+      { v: "My flesh and my heart may fail, but God is the strength of my heart and my portion forever.", r: "Psalm 73:26" },
+      { v: "How lovely is your dwelling place, Lord Almighty!", r: "Psalm 84:1" },
+      { v: "For the Lord God is a sun and shield; the Lord bestows favor and honor.", r: "Psalm 84:11" },
+      { v: "Teach us to number our days, that we may gain a heart of wisdom.", r: "Psalm 90:12" },
+      { v: "Whoever dwells in the shelter of the Most High will rest in the shadow of the Almighty.", r: "Psalm 91:1" },
+      { v: "I will say of the Lord, 'He is my refuge and my fortress, my God, in whom I trust.'", r: "Psalm 91:2" },
+      { v: "He will cover you with his feathers, and under his wings you will find refuge.", r: "Psalm 91:4" },
+      { v: "For he will command his angels concerning you to guard you in all your ways.", r: "Psalm 91:11" },
+      { v: "Shout for joy to the Lord, all the earth. Worship the Lord with gladness.", r: "Psalm 100:1-2" },
+      { v: "Enter his gates with thanksgiving and his courts with praise.", r: "Psalm 100:4" },
+      { v: "Praise the Lord, my soul; all my inmost being, praise his holy name.", r: "Psalm 103:1" },
+      { v: "He heals the brokenhearted and binds up their wounds.", r: "Psalm 147:3" },
+      { v: "Great is our Lord and mighty in power; his understanding has no limit.", r: "Psalm 147:5" },
+      { v: "Let everything that has breath praise the Lord.", r: "Psalm 150:6" },
+      { v: "The fear of the Lord is the beginning of knowledge.", r: "Proverbs 1:7" },
+      { v: "Above all else, guard your heart, for everything you do flows from it.", r: "Proverbs 4:23" },
+      { v: "A gentle answer turns away wrath, but a harsh word stirs up anger.", r: "Proverbs 15:1" },
+      { v: "Commit to the Lord whatever you do, and he will establish your plans.", r: "Proverbs 16:3" },
+      { v: "In their hearts humans plan their course, but the Lord establishes their steps.", r: "Proverbs 16:9" },
+      { v: "Pride goes before destruction, a haughty spirit before a fall.", r: "Proverbs 16:18" },
+      { v: "As iron sharpens iron, so one person sharpens another.", r: "Proverbs 27:17" },
+      { v: "There is a time for everything, and a season for every activity under the heavens.", r: "Ecclesiastes 3:1" },
+      { v: "He has made everything beautiful in its time.", r: "Ecclesiastes 3:11" },
+      { v: "A cord of three strands is not quickly broken.", r: "Ecclesiastes 4:12" },
+      { v: "Arise, shine, for your light has come, and the glory of the Lord rises upon you.", r: "Isaiah 60:1" },
+      { v: "'For I know the plans I have for you,' declares the Lord, 'plans to prosper you.'", r: "Jeremiah 29:11" },
+      { v: "You will seek me and find me when you seek me with all your heart.", r: "Jeremiah 29:13" },
+      { v: "Call to me and I will answer you and tell you great and unsearchable things.", r: "Jeremiah 33:3" },
+      { v: "The Lord your God is with you, the Mighty Warrior who saves.", r: "Zephaniah 3:17" },
+      { v: "He will take great delight in you; in his love he will no longer rebuke you.", r: "Zephaniah 3:17" },
+      { v: "'Not by might nor by power, but by my Spirit,' says the Lord Almighty.", r: "Zechariah 4:6" },
+      { v: "Look at the birds of the air; they do not sow or reap, yet your heavenly Father feeds them.", r: "Matthew 6:26" },
+      { v: "But seek first his kingdom and his righteousness, and all these things will be given to you.", r: "Matthew 6:33" },
+      { v: "Therefore do not worry about tomorrow, for tomorrow will worry about itself.", r: "Matthew 6:34" },
+      { v: "Take my yoke upon you and learn from me, for I am gentle and humble in heart.", r: "Matthew 11:29" },
+      { v: "For where two or three gather in my name, there am I with them.", r: "Matthew 18:20" },
+      { v: "With man this is impossible, but with God all things are possible.", r: "Matthew 19:26" },
+      { v: "Love the Lord your God with all your heart and with all your soul and with all your mind.", r: "Matthew 22:37" },
+      { v: "Love your neighbor as yourself.", r: "Matthew 22:39" },
+      { v: "Heaven and earth will pass away, but my words will never pass away.", r: "Matthew 24:35" },
+      { v: "Everything is possible for one who believes.", r: "Mark 9:23" },
+      { v: "For even the Son of Man did not come to be served, but to serve.", r: "Mark 10:45" },
+      { v: "Therefore I tell you, whatever you ask for in prayer, believe that you have received it.", r: "Mark 11:24" },
+      { v: "For no word from God will ever fail.", r: "Luke 1:37" },
+      { v: "Glory to God in the highest heaven, and on earth peace to those on whom his favor rests.", r: "Luke 2:14" },
+      { v: "Do not judge, and you will not be judged. Do not condemn, and you will not be condemned.", r: "Luke 6:37" },
+      { v: "Forgive, and you will be forgiven.", r: "Luke 6:37" },
+      { v: "Give, and it will be given to you. A good measure, pressed down, shaken together.", r: "Luke 6:38" },
+      { v: "For the Son of Man came to seek and to save the lost.", r: "Luke 19:10" },
+      { v: "In the beginning was the Word, and the Word was with God, and the Word was God.", r: "John 1:1" },
+      { v: "The light shines in the darkness, and the darkness has not overcome it.", r: "John 1:5" },
+      { v: "Yet to all who did receive him, he gave the right to become children of God.", r: "John 1:12" },
+      { v: "For God did not send his Son into the world to condemn the world, but to save it.", r: "John 3:17" },
+      { v: "God is spirit, and his worshipers must worship in the Spirit and in truth.", r: "John 4:24" },
+      { v: "Then Jesus declared, 'I am the bread of life.'", r: "John 6:35" },
+      { v: "I am the light of the world. Whoever follows me will never walk in darkness.", r: "John 8:12" },
+      { v: "Then you will know the truth, and the truth will set you free.", r: "John 8:32" },
+      { v: "I am the good shepherd. The good shepherd lays down his life for the sheep.", r: "John 10:11" },
+      { v: "I came that they may have life and have it abundantly.", r: "John 10:10" },
+      { v: "Jesus said to her, 'I am the resurrection and the life.'", r: "John 11:25" },
+      { v: "A new command I give you: Love one another. As I have loved you, so you must love one another.", r: "John 13:34" },
+      { v: "By this everyone will know that you are my disciples, if you love one another.", r: "John 13:35" },
+      { v: "Do not let your hearts be troubled. You believe in God; believe also in me.", r: "John 14:1" },
+      { v: "In my Father's house are many rooms.", r: "John 14:2" },
+      { v: "If you love me, keep my commands.", r: "John 14:15" },
+      { v: "I am the vine; you are the branches. If you remain in me you will bear much fruit.", r: "John 15:5" },
+      { v: "Greater love has no one than this: to lay down one's life for one's friends.", r: "John 15:13" },
+      { v: "In this world you will have trouble. But take heart! I have overcome the world.", r: "John 16:33" },
+      { v: "Sanctify them by the truth; your word is truth.", r: "John 17:17" },
+      { v: "Jesus said, 'It is finished.' With that, he bowed his head and gave up his spirit.", r: "John 19:30" },
+      { v: "Blessed are those who have not seen and yet have believed.", r: "John 20:29" },
+      { v: "But you will receive power when the Holy Spirit comes on you.", r: "Acts 1:8" },
+      { v: "Salvation is found in no one else, for there is no other name under heaven given to mankind.", r: "Acts 4:12" },
+      { v: "Believe in the Lord Jesus, and you will be saved—you and your household.", r: "Acts 16:31" },
+      { v: "For I am not ashamed of the gospel, because it is the power of God that brings salvation.", r: "Romans 1:16" },
+      { v: "For all have sinned and fall short of the glory of God.", r: "Romans 3:23" },
+      { v: "For the wages of sin is death, but the gift of God is eternal life in Christ Jesus.", r: "Romans 6:23" },
+      { v: "There is now no condemnation for those who are in Christ Jesus.", r: "Romans 8:1" },
+      { v: "If God is for us, who can be against us?", r: "Romans 8:31" },
+      { v: "For I am convinced that neither death nor life will be able to separate us from the love of God.", r: "Romans 8:38-39" },
+      { v: "If you declare with your mouth, 'Jesus is Lord,' you will be saved.", r: "Romans 10:9" },
+      { v: "Faith comes from hearing the message, and the message is heard through the word about Christ.", r: "Romans 10:17" },
+      { v: "Do not conform to the pattern of this world, but be transformed by the renewing of your mind.", r: "Romans 12:2" },
+      { v: "Be joyful in hope, patient in affliction, faithful in prayer.", r: "Romans 12:12" },
+      { v: "Do not be overcome by evil, but overcome evil with good.", r: "Romans 12:21" },
+      { v: "For the message of the cross is foolishness to those who are perishing, but to us it is power.", r: "1 Corinthians 1:18" },
+      { v: "Do you not know that your bodies are temples of the Holy Spirit?", r: "1 Corinthians 6:19" },
+      { v: "So whether you eat or drink or whatever you do, do it all for the glory of God.", r: "1 Corinthians 10:31" },
+      { v: "No temptation has overtaken you except what is common to mankind. God is faithful.", r: "1 Corinthians 10:13" },
+      { v: "Be on your guard; stand firm in the faith; be courageous; be strong.", r: "1 Corinthians 16:13" },
+      { v: "Do everything in love.", r: "1 Corinthians 16:14" },
+      { v: "Praise be to the God of all comfort, who comforts us in all our troubles.", r: "2 Corinthians 1:3-4" },
+      { v: "For we live by faith, not by sight.", r: "2 Corinthians 5:7" },
+      { v: "Therefore, if anyone is in Christ, the new creation has come: The old has gone, the new is here!", r: "2 Corinthians 5:17" },
+      { v: "My grace is sufficient for you, for my power is made perfect in weakness.", r: "2 Corinthians 12:9" },
+      { v: "I have been crucified with Christ and I no longer live, but Christ lives in me.", r: "Galatians 2:20" },
+      { v: "But the fruit of the Spirit is love, joy, peace, forbearance, kindness, goodness, faithfulness.", r: "Galatians 5:22" },
+      { v: "Let us not become weary in doing good, for at the proper time we will reap a harvest.", r: "Galatians 6:9" },
+      { v: "For it is by grace you have been saved, through faith—and this is not from yourselves.", r: "Ephesians 2:8" },
+      { v: "For we are God's handiwork, created in Christ Jesus to do good works.", r: "Ephesians 2:10" },
+      { v: "Now to him who is able to do immeasurably more than all we ask or imagine.", r: "Ephesians 3:20" },
+      { v: "Be completely humble and gentle; be patient, bearing with one another in love.", r: "Ephesians 4:2" },
+      { v: "Be kind and compassionate to one another, forgiving each other, just as in Christ God forgave you.", r: "Ephesians 4:32" },
+      { v: "Put on the full armor of God, so that you can take your stand against the devil's schemes.", r: "Ephesians 6:11" },
+      { v: "He who began a good work in you will carry it on to completion.", r: "Philippians 1:6" },
+      { v: "For to me, to live is Christ and to die is gain.", r: "Philippians 1:21" },
+      { v: "Do everything without grumbling or arguing.", r: "Philippians 2:14" },
+      { v: "I press on toward the goal to win the prize for which God has called me heavenward.", r: "Philippians 3:14" },
+      { v: "Finally, brothers and sisters, whatever is true, noble, right, pure, lovely—think about such things.", r: "Philippians 4:8" },
+      { v: "And my God will meet all your needs according to the riches of his glory in Christ Jesus.", r: "Philippians 4:19" },
+      { v: "Set your minds on things above, not on earthly things.", r: "Colossians 3:2" },
+      { v: "And whatever you do, whether in word or deed, do it all in the name of the Lord Jesus.", r: "Colossians 3:17" },
+      { v: "Whatever you do, work at it with all your heart, as working for the Lord, not for human masters.", r: "Colossians 3:23" },
+      { v: "Let your conversation be always full of grace, seasoned with salt.", r: "Colossians 4:6" },
+      { v: "For God has not given us a spirit of fear, but of power and of love and of a sound mind.", r: "2 Timothy 1:7" },
+      { v: "All Scripture is God-breathed and is useful for teaching, rebuking, correcting and training.", r: "2 Timothy 3:16" },
+      { v: "I have fought the good fight, I have finished the race, I have kept the faith.", r: "2 Timothy 4:7" },
+      { v: "For the word of God is alive and active. Sharper than any double-edged sword.", r: "Hebrews 4:12" },
+      { v: "Let us then approach God's throne of grace with confidence.", r: "Hebrews 4:16" },
+      { v: "Now faith is confidence in what we hope for and assurance about what we do not see.", r: "Hebrews 11:1" },
+      { v: "And without faith it is impossible to please God.", r: "Hebrews 11:6" },
+      { v: "Let us run with perseverance the race marked out for us, fixing our eyes on Jesus.", r: "Hebrews 12:1-2" },
+      { v: "Jesus Christ is the same yesterday and today and forever.", r: "Hebrews 13:8" },
+      { v: "Consider it pure joy, my brothers and sisters, whenever you face trials of many kinds.", r: "James 1:2" },
+      { v: "Every good and perfect gift is from above, coming down from the Father of the heavenly lights.", r: "James 1:17" },
+      { v: "Do not merely listen to the word, and so deceive yourselves. Do what it says.", r: "James 1:22" },
+      { v: "Faith by itself, if it is not accompanied by action, is dead.", r: "James 2:17" },
+      { v: "Submit yourselves, then, to God. Resist the devil, and he will flee from you.", r: "James 4:7" },
+      { v: "Humble yourselves before the Lord, and he will lift you up.", r: "James 4:10" },
+      { v: "The prayer of a righteous person is powerful and effective.", r: "James 5:16" },
+      { v: "Praise be to the God and Father of our Lord Jesus Christ! In his great mercy he has given us new birth.", r: "1 Peter 1:3" },
+      { v: "Above all, love each other deeply, because love covers over a multitude of sins.", r: "1 Peter 4:8" },
+      { v: "Humble yourselves under God's mighty hand, that he may lift you up in due time.", r: "1 Peter 5:6" },
+      { v: "If we confess our sins, he is faithful and just and will forgive us our sins.", r: "1 John 1:9" },
+      { v: "Dear children, let us not love with words or speech but with actions and in truth.", r: "1 John 3:18" },
+      { v: "Dear friends, let us love one another, for love comes from God.", r: "1 John 4:7" },
+      { v: "Whoever does not love does not know God, because God is love.", r: "1 John 4:8" },
+      { v: "There is no fear in love. But perfect love drives out fear.", r: "1 John 4:18" },
+      { v: "We love because he first loved us.", r: "1 John 4:19" },
+      { v: "The one who is in you is greater than the one who is in the world.", r: "1 John 4:4" },
+      { v: "Behold, I stand at the door and knock. If anyone hears my voice and opens the door, I will come in.", r: "Revelation 3:20" },
+      { v: "He will wipe every tear from their eyes. There will be no more death or mourning.", r: "Revelation 21:4" }
+    ];
+
+    // ANIMATED INTRO LOADING CONTROLLER
+    let progress = 0;
+    let quoteIndex = 0;
+
+    function runIntroLoading() {
+      const progressBar = document.getElementById('progressBar');
+      const progressText = document.getElementById('progressText');
+      const verseText = document.getElementById('bibleVerseText');
+      const verseRef = document.getElementById('bibleVerseRef');
+
+      quoteIndex = Math.floor(Math.random() * BIBLE_QUOTES.length);
+      updateQuoteUI(quoteIndex);
+
+      const quoteInterval = setInterval(() => {
+        quoteIndex = (quoteIndex + 1) % BIBLE_QUOTES.length;
+        verseText.classList.add('opacity-0');
+        verseRef.classList.add('opacity-0');
+
+        setTimeout(() => {
+          updateQuoteUI(quoteIndex);
+          verseText.classList.remove('opacity-0');
+          verseRef.classList.remove('opacity-0');
+        }, 300);
+      }, 1800);
+
+      const progressInterval = setInterval(() => {
+        progress += Math.floor(Math.random() * 5) + 2;
+        if (progress >= 100) {
+          progress = 100;
+          clearInterval(progressInterval);
+          clearInterval(quoteInterval);
+
+          setTimeout(() => {
+            document.getElementById('loadingScreen').classList.add('hide');
+          }, 400);
+        }
+        progressBar.style.width = `${progress}%`;
+        progressText.textContent = `${progress}%`;
+      }, 70);
+    }
+
+    function updateQuoteUI(idx) {
+      document.getElementById('bibleVerseText').textContent = `"${BIBLE_QUOTES[idx].v}"`;
+      document.getElementById('bibleVerseRef').textContent = `— ${BIBLE_QUOTES[idx].r}`;
+    }
+
+    function refreshDashboardVerse() {
+      const randomIdx = Math.floor(Math.random() * BIBLE_QUOTES.length);
+      document.getElementById('dashboardVerse').textContent = `"${BIBLE_QUOTES[randomIdx].v}"`;
+      document.getElementById('dashboardRef').textContent = `— ${BIBLE_QUOTES[randomIdx].r}`;
+    }
+
+    // LIVE CLOCK FUNCTIONALITY
+    function updateLiveClock() {
+      const now = new Date();
+      let hours = now.getHours();
+      const minutes = String(now.getMinutes()).padStart(2, '0');
+      const seconds = String(now.getSeconds()).padStart(2, '0');
+      const ampm = hours >= 12 ? 'PM' : 'AM';
+      hours = hours % 12 || 12;
+      const formattedHours = String(hours).padStart(2, '0');
+
+      document.getElementById('liveClock').textContent = `${formattedHours}:${minutes}:${seconds} ${ampm}`;
+
+      const options = { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' };
+      document.getElementById('liveDate').textContent = now.toLocaleDateString('en-US', options);
+    }
+
+    // FLOATING PARTICLES GENERATOR
+    function createParticles() {
+      const container = document.getElementById('particleContainer');
+      for (let i = 0; i < 20; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'particle';
+        const size = Math.random() * 4 + 2;
+        particle.style.width = `${size}px`;
+        particle.style.height = `${size}px`;
+        particle.style.left = `${Math.random() * 100}%`;
+        particle.style.animationDelay = `${Math.random() * 8}s`;
+        particle.style.animationDuration = `${Math.random() * 6 + 6}s`;
+        container.appendChild(particle);
+      }
+    }
+
+    // INITIALIZE ON DOM LOAD
+    window.addEventListener('DOMContentLoaded', () => {
+      runIntroLoading();
+      setInterval(updateLiveClock, 1000);
+      updateLiveClock();
+      createParticles();
+      refreshDashboardVerse();
+    });
+  </script>
+</body>
+</html>
